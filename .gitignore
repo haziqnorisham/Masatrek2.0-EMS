@@ -1,0 +1,17 @@
+*.log
+*.sql
+*.sqlite
+*.pylintrc
+*.db
+*.sqbpro
+*.pyc
+*.sqbpro
+conf.ini
+masatrek_2.0__env/
+venv/
+view/
+.vscode/
+__pycache__/
+__pycache__
+view/py/__pycache__/employee_details.cpython-38.pyc
+Documentation/
