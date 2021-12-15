@@ -124,7 +124,7 @@
                                             <td>{{attendance[0]}} {{attendance[20]}}</td>
                                             
                                             <!-- Image & Name -->
-                                            <td><img class="rounded-circle me-2" width="30" height="30" src="snapshot/{{attendance[15]}}.jpg" data-user_id="{{attendance[16]}}" data-date="{{attendance[0]}}" data-bs-toggle="modal" data-bs-target="#modal-1" onclick="detailed_view(this)">{{attendance[2]}}</td>
+                                            <td><img class="rounded-circle me-2" width="30" height="30" src="snapshot/{{attendance[15]}}.jpg" data-user_id="{{attendance[16]}}" data-date="{{attendance[0]}}" data-name="{{attendance[2]}}" data-bs-toggle="modal" data-bs-target="#modal-1" onclick="detailed_view(this)">{{attendance[2]}}</td>
                                             
                                             <!-- Employee ID -->
                                             <td>{{attendance[1]}}</td>
@@ -195,7 +195,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Detailed View - MUHAMMAD HAZIQ BIN NORISHAM</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" id="detailed-view-title">Detailed View - MUHAMMAD HAZIQ BIN NORISHAM</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">
@@ -226,6 +226,10 @@
             var user_id = caller.dataset.user_id;
             var param = "user_id="+user_id+"&date="+attendance_date;
             var detailed_attendance_table = document.getElementById("detailed_attendance_table");
+            var employee_name = caller.dataset.name;
+
+            document.getElementById("detailed-view-title").innerHTML = "DETAILED VIEW - " + employee_name;
+
             while(detailed_attendance_table.hasChildNodes()){
                 detailed_attendance_table.removeChild(detailed_attendance_table.firstChild);
             }
