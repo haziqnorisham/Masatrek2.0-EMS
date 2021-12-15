@@ -435,6 +435,8 @@ def start():
 
         response = requests.request("POST",url, headers=headers ,json=body)
 
+        app.flash("success", "Succesfully Clock-In / Clock-Out at " + str(timestamp))
+
         redirect("/attendance_summary")
 
 

@@ -35,7 +35,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row d-flex d-xxl-flex justify-content-center justify-content-xxl-center"><button class="btn btn-primary" type="submit" style="max-width: 50%;">Snapshot</button></div>
+                                        <div class="row d-flex d-xxl-flex justify-content-center justify-content-xxl-center"><button class="btn btn-primary" type="submit" style="max-width: 50%;">Clock-In / Clock-Out</button></div>
                                     </div>
                                 </form>
                             </div>
