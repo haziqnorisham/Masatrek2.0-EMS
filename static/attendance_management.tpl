@@ -132,22 +132,34 @@
                                             <!-- Enter Time -->
                                             % if attendance[17] == 1:
                                             <td><p class="text-danger">{{attendance[7]}}</p></td>
+                                            % elif attendance[7] == None:
+                                            <td><p class="text-danger">Absent</p></td>
                                             % else:
                                             <td>{{attendance[7]}}</td>
                                             % end
 
                                             <!-- Enter Location & Temperature -->
+                                            % if attendance[8] == None:
+                                            <td><p class="text-danger">Absent</p></td>
+                                            % else:
                                             <td>{{attendance[8]}}({{attendance[13]}})</td>
+                                            % end
                                             
                                             <!-- Exit Time -->
                                             % if attendance[18] == 1: 
                                             <td><p class="text-danger">{{attendance[9]}}</p></td>
+                                            % elif attendance[9] == None:
+                                            <td><p class="text-danger">Absent</p></td>
                                             % else:
                                             <td>{{attendance[9]}}</td>
                                             % end
 
                                             <!-- Exit Location & Temperature -->
+                                            % if attendance[10] == None:
+                                            <td><p class="text-danger">Absent</p></td>
+                                            % else:
                                             <td>{{attendance[10]}}({{attendance[14]}})</td>
+                                            % end
 
                                             <!-- Comments -->
                                             <td>{{attendance[11]}}</td>
