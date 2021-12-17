@@ -247,6 +247,16 @@ def insert_snapshot_registered(image_name, timestamp, status, user_id, terminal_
     conn.commit()
     return None
 
+def insert_snapshot_registered_with_location(image_name, timestamp, status, user_id, terminal_id, temperature, latitude, longitude):
+    stmt = "INSERT INTO snapshot_reg (snap_image, snap_timestamp, snap_status, usr_id, term_id, temperature, latitude, longitude) VALUES (?,datetime(?),?,?,?,?,?,?);"
+
+    param = (image_name, timestamp, status, user_id, terminal_id, temperature, latitude, longitude)
+
+    c.execute(stmt, param)
+
+    conn.commit()
+    return None
+
 def insert_snapshot_unregistered(image_name, timestamp, device_id):
     stmt = "INSERT INTO snapshot_un_reg (snap_image, snap_timestamp, term_id) VALUES (?, ?, ?);"
     param = (image_name, timestamp, device_id)
@@ -791,7 +801,9 @@ def get_user_detailed_attendance(date, user_id):
             snapshot_reg.snap_timestamp, 
             snapshot_reg.snap_image, 
             terminal_details.term_name, 
-            snapshot_reg.temperature 
+            snapshot_reg.temperature,
+            snapshot_reg.latitude,
+            snapshot_reg.longitude
             FROM 
                 snapshot_reg 
             LEFT JOIN
@@ -808,6 +820,8 @@ def get_user_detailed_attendance(date, user_id):
     
     param = (date, user_id)
     for row in c.execute(stmt, param):
-        attendance_details.append({"timestamp": row[0], "image_name": row[1], "terminal_name": row[2], "temperature": row[3]})
+        attendance_details.append({"timestamp": row[0], "image_name": row[1],
+            "terminal_name": row[2], "temperature": row[3],
+            "latitude": row[4], "longitude": row[5]})
 
     return attendance_details

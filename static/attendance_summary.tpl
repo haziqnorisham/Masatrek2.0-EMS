@@ -19,7 +19,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <form action="/attendance_summary/remote_clock" method="POST">
+                                <form id="clock_in_form" action="/attendance_summary/remote_clock" method="POST">
                                     <div class="col">
                                         <div class="row">
                                             <div class="col-md-6 text-nowrap d-xl-flex d-xxl-flex pb-3">
@@ -35,7 +35,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row d-flex d-xxl-flex justify-content-center justify-content-xxl-center"><button class="btn btn-primary" type="submit" style="max-width: 50%;">Clock-In / Clock-Out</button></div>
+                                        <input type="hidden" id="location_latitude" name="location_latitude" value="">
+                                        <input type="hidden" id="location_longitude" name="location_longitude" value="">
+                                        <div class="row d-flex d-xxl-flex justify-content-center justify-content-xxl-center"><button id="clock-in-button" class="btn btn-primary" type="button" style="max-width: 50%;">Clock-In / Clock-Out</button></div>
                                     </div>
                                 </form>
                             </div>
@@ -211,13 +213,18 @@
                     for (var attendance of from_server){
                         var table_row = detailed_attendance_table.insertRow();
                         
-                        var table_cell = table_row.insertCell()
+                        var table_cell = table_row.insertCell();
                         table_cell.innerHTML = attendance.timestamp;
                         
-                        var table_cell = table_row.insertCell()
-                        table_cell.innerHTML = '<img class="rounded-circle me-2" width="30" height="30" src="snapshot/' + attendance.image_name + '.jpg">' + attendance.terminal_name;
+                        var table_cell = table_row.insertCell();
+                        if (attendance.latitude == null){                            
+                            table_cell.innerHTML = '<img class="rounded-circle me-2" width="30" height="30" src="snapshot/' + attendance.image_name + '.jpg">' + attendance.terminal_name;
+                        }
+                        else{
+                            table_cell.innerHTML = '<a href= "' + `https://www.openstreetmap.org/?mlat=${attendance.latitude}&mlon=${attendance.longitude}#map=18/${attendance.latitude}/${attendance.longitude}` + '" target="_blank">View Location</a>';
+                        }                                                
                         
-                        var table_cell = table_row.insertCell()
+                        var table_cell = table_row.insertCell();
                         table_cell.innerHTML = attendance.temperature;
                     }
             }
@@ -226,6 +233,44 @@
             xhttp.send(param);
         }
         
+    </script>
+
+    <!-- Get GPS Location Script -->
+    <script>
+        function geoFindMe() {
+
+            const clock_in_button = document.querySelector('#clock-in-button');
+            const latitude_input = document.querySelector('#location_latitude');
+            const longitude_input = document.querySelector('#location_longitude');
+            const clock_in_form = document.querySelector('#clock_in_form');
+
+            function success(position) {
+                const latitude  = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                
+                latitude_input.value = latitude;
+                longitude_input.value = longitude;
+
+                console.log(`https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=18/${latitude}/${longitude}`);
+
+                clock_in_form.submit()
+            }
+
+            function error() {
+                alert('Attendance is NOT recorded, Unable to retrieve your location, please enable location in your browser');
+                console.log('Unable to retrieve your location');
+            }
+
+            if(!navigator.geolocation) {
+                alert('Attendance is NOT recorded, Unable to retrieve your location, please enable location in your browser');
+                console.log('Geolocation is not supported by your browser');
+            } else {            
+                navigator.geolocation.getCurrentPosition(success, error);
+            }
+
+        }
+
+        document.querySelector('#clock-in-button').addEventListener('click', geoFindMe);
     </script>
 </body>
 

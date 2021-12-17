@@ -242,8 +242,13 @@
                         var table_cell = table_row.insertCell()
                         table_cell.innerHTML = attendance.timestamp;
                         
-                        var table_cell = table_row.insertCell()
-                        table_cell.innerHTML = '<img class="rounded-circle me-2" width="30" height="30" src="snapshot/' + attendance.image_name + '.jpg">' + attendance.terminal_name;
+                        var table_cell = table_row.insertCell();
+                        if (attendance.latitude == null){                            
+                            table_cell.innerHTML = '<img class="rounded-circle me-2" width="30" height="30" src="snapshot/' + attendance.image_name + '.jpg">' + attendance.terminal_name;
+                        }
+                        else{
+                            table_cell.innerHTML = '<a href= "' + `https://www.openstreetmap.org/?mlat=${attendance.latitude}&mlon=${attendance.longitude}#map=18/${attendance.latitude}/${attendance.longitude}` + '" target="_blank">View Location</a>';
+                        }    
                         
                         var table_cell = table_row.insertCell()
                         table_cell.innerHTML = attendance.temperature;

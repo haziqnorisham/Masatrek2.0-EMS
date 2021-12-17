@@ -404,6 +404,9 @@ def start():
         employee_id = request.forms.get("employee_id")
         employee_details = dbase_handler.get_employee_details(employee_id)
 
+        latitude = request.forms.get("location_latitude")
+        longitude = request.forms.get("location_longitude")
+
         timestamp = datetime.now(MY_TIME)
         timestamp = timestamp.strftime("%Y-%m-%d %H:%M:%S")
         
@@ -430,7 +433,11 @@ def start():
                     "DeviceID": "1",
                     "Temperature": "0"
                 },
-                "SanpPic": "base64:idshsfjawrfiwaier3q8294qt4ijfs"
+                "SanpPic": "data:image/jpeg;base64,idshsfjawrfiwaier3q8294qt4ijfs",
+                "Location":{
+                    "Latitude" : latitude,
+                    "Longitude": longitude
+                }
                 }
 
         response = requests.request("POST",url, headers=headers ,json=body)
@@ -581,7 +588,13 @@ def start():
             temperature = 0
 
         if (dbase_handler.is_user_available(user_id) == 1):
-            dbase_handler.insert_snapshot_registered(image_name, snapshot_timestamp, 0, user_id, device_id, temperature)
+            
+            try:
+                latitude = json_reply['Location']['Latitude']
+                longitude = json_reply['Location']['Longitude']
+                dbase_handler.insert_snapshot_registered_with_location(image_name, snapshot_timestamp, 0, user_id, device_id, temperature, latitude, longitude)                
+            except Exception as e:
+                dbase_handler.insert_snapshot_registered(image_name, snapshot_timestamp, 0, user_id, device_id, temperature)
 
             employee_details = dbase_handler.get_employee_details_user_id(user_id)
 
