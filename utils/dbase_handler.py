@@ -817,7 +817,9 @@ def get_user_detailed_attendance(date, user_id):
             ORDER BY
                 snapshot_reg.snap_id 
             ASC"""
-    
+
+
+
     param = (date, user_id)
     for row in c.execute(stmt, param):
         attendance_details.append({"timestamp": row[0], "image_name": row[1],
@@ -825,3 +827,10 @@ def get_user_detailed_attendance(date, user_id):
             "latitude": row[4], "longitude": row[5]})
 
     return attendance_details
+
+def update_password(employee_id, password):
+    stmt = "UPDATE employee_details SET emp_password = ? WHERE emp_id = ?;"
+    param = (password, employee_id)
+    c.execute(stmt, param)
+    conn.commit()
+    return None

@@ -19,11 +19,12 @@
         <div class="row justify-content-center">
             <div class="col-md-9 col-lg-12 col-xl-10">
                 <div class="card shadow-lg o-hidden border-0 my-5">
-                    <div class="card-body p-0">
+                    <div class="card-body p-0">                        
                         <div class="row justify-content-center">
-                            <div class="col-lg-6">
+                            <div class="col-lg-6">                                
                                 <div class="p-5">
                                     <div class="text-center"><img class="pb-3" src="assets/img/Masatrek-sm.png"></div>
+                                    % include('./static/base/flash.tpl')
                                     <form class="user" method="POST" action="/login_check">
                                         <div class="mb-3"><input class="form-control form-control-user" type="text" id="inputUserId" name="user_id" placeholder="Enter User Id..."></div>
                                         <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password"></div><button class="btn btn-primary d-block btn-user w-100" type="submit">Login</button>

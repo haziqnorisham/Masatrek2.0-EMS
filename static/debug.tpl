@@ -1,41 +1,33 @@
-<h1>DEBUG PAGE</h1>
+<head>
+  % include('./static/base/header.tpl', title = 'Profile')
+</head>
+<body>  
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button><div class="dropdown-divider">
 
-<button id = "find-me">Show my location</button><br/>
-<p id = "status"></p>
-<a id = "map-link" target="_blank"></a>
-
-
-<script>
-function geoFindMe() {
-
-const status = document.querySelector('#status');
-const mapLink = document.querySelector('#map-link');
-
-mapLink.href = '';
-mapLink.textContent = '';
-
-function success(position) {
-  const latitude  = position.coords.latitude;
-  const longitude = position.coords.longitude;
-
-  status.textContent = '';
-  mapLink.href = `https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=18/${latitude}/${longitude}`;
-  mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
-}
-
-function error() {
-  status.textContent = 'Unable to retrieve your location';
-}
-
-if(!navigator.geolocation) {
-  status.textContent = 'Geolocation is not supported by your browser';
-} else {
-  status.textContent = 'Locating…';
-  navigator.geolocation.getCurrentPosition(success, error);
-}
-
-}
-
-document.querySelector('#find-me').addEventListener('click', geoFindMe);
-
-</script>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+</body>

@@ -56,13 +56,13 @@ def start():
             return template("./static/index", unique_visitor_count = unique_visitor_count,
                 week_unique_visitor = week_unique_visitor, terminal_count = terminal_count,
                 visitor_count = visitor_count, all_terminal_usage = all_terminal_usage,
-                dates_for_week = dates_for_week, request = request)
+                dates_for_week = dates_for_week, request = request, app = app)
         else:
             redirect("/login")
 
     @get('/login')
     def login():
-        return template("./static/login")
+        return template("./static/login", app = app, request = request)
     
     @get('/logout')
     def logout():
@@ -355,9 +355,9 @@ def start():
 
     @post('/attendance_management/ajax_detailed_view')
     def ajax_detailed_view():
-        user_id = request.forms.user_id
+        user_id = request.forms.user_id        
         date = request.forms.date
-
+        print(date)
         detailed_attendance = dbase_handler.get_user_detailed_attendance(date, user_id)
 
         return json.dumps(detailed_attendance)
@@ -469,6 +469,29 @@ def start():
         except Exception as e:
             app.flash("danger", e)
         redirect('/attendance_summary')
+
+    @post("/update_password")
+    def update_password():
+        if request.get_cookie("logged_in"):
+            employee_id = request.get_cookie("staff_id")
+            from_url = request.forms.get("from_url")
+            old_password = request.forms.get("old_password")
+            new_password = request.forms.get("new_password")
+            new_password_confirm = request.forms.get("new_password_confirm")
+
+            if len(dbase_handler.verify_login(employee_id, old_password)) > 0:
+                if new_password == new_password_confirm:
+                    dbase_handler.update_password(employee_id, new_password)
+                    app.flash("success", "Succesfully updated password. Please re-login.")
+                    redirect("/logout")
+                else:
+                    app.flash("danger", "Failed updating password. New password & Confirmation password don't match.")
+            else:
+                app.flash("danger", "Failed updating password. Wrong old password.")
+
+            redirect(from_url)
+        else:
+            redirect("/login")
 
     @get("/testing")
     def testing():
